@@ -19,11 +19,16 @@ A Django + Django REST Framework backend for managing livestock, vaccinations, c
 ## 🧱 Tech Stack
 
 - Python, Django, Django REST Framework
-- PostgreSQL (recommended) / SQLite (dev)
-- Celery + Redis (optional, for async notifications)
-- Docker (optional)
+- PostgreSQL / SQLite 
+- Celery + Redis 
 
 ---
 
 ## 📦 Project Structure (apps)
+
+accounts/ # User + profiles (Mkulima, Vet)
+livestock/ # Animal model
+vaccinations/ # Vaccine, VaccineTargetSpecies, VaccinationSchedule, VaccinationRecord
+consultations/ # Consultation workflow
+notifications/ # Notification scheduling
 
