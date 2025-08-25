@@ -33,7 +33,8 @@ consultations/ # Consultation workflow
 notifications/ # Notification scheduling
 
 ---
-## API Endpoints
+
+## 🛠 API Endpoints
 
 🔑 1: Authentication & Accounts API
 
