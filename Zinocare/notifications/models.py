@@ -6,17 +6,6 @@ from django.utils import timezone
 
 
 class Notification(models.Model):
-    """
-    Represents a notification to be sent to a user (farmer or vet)
-    regarding vaccination schedules or related updates.
-
-    Payload field (JSONField) should follow this recommended schema:
-    {
-        "subject": "Vaccination Reminder",
-        "body": "Your cow needs vaccination on 2025-08-23",
-        "metadata": { "animal_id": "...", "schedule_id": "..." }
-    }
-    """
 
     class Channel(models.TextChoices):
         SMS = "SMS", "SMS"
@@ -89,8 +78,6 @@ class Notification(models.Model):
             )
         ]
         indexes = [
-            # Composite index optimizes queries like:
-            # Notification.objects.filter(status="PENDING", send_at__lte=timezone.now())
             models.Index(fields=["status", "send_at"]),
             models.Index(fields=["send_at"]),
         ]
@@ -99,13 +86,8 @@ class Notification(models.Model):
         if self.send_at and self.send_at <= timezone.now():
             raise ValidationError({"send_at": "Send time must be in the future."})
 
-        # Optional domain safeguard:
-        # Ensure recipient is schedule owner or assigned vet
-        # if hasattr(self.schedule, "animal") and self.schedule.animal.owner != self.recipient:
-        #     raise ValidationError("Recipient must be the animal owner or assigned vet.")
-
     def save(self, *args, **kwargs):
-        self.full_clean()  # ensures validation always runs
+        self.full_clean()  
         return super().save(*args, **kwargs)
 
     def __str__(self):
