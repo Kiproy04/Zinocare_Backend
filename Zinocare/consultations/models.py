@@ -118,10 +118,21 @@ class Consultation(models.Model):
         self.save(update_fields=["status", "notes", "updated_at"])
 
     def cancel(self, reason=""):
+        if self.status == self.Status.CANCELLED:
+            raise ValidationError("This consultation is already cancelled.")
+        if self.status == self.Status.COMPLETED:
+            raise ValidationError("Completed consultations cannot be cancelled.")
+
         self.status = self.Status.CANCELLED
+
+        if not self.notes:
+            self.notes = ""
+
         if reason:
-            self.notes = (self.notes + "\n[CANCELLED]: " + reason).strip()
+            self.notes = (self.notes + f"\n[CANCELLED]: {reason}").strip()
+
         self.save(update_fields=["status", "notes", "updated_at"])
+        return self
 
     def __str__(self):
         vet_label = self.vet or "Unassigned"

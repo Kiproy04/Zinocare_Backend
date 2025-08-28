@@ -34,7 +34,14 @@ class Notification(models.Model):
         "vaccinations.VaccinationSchedule",
         on_delete=models.CASCADE,
         related_name="notifications",
-        help_text="Vaccination schedule this notification belongs to",
+        null=True, blank=True,
+    )
+    consultation = models.ForeignKey(
+        "consultations.Consultation",
+        on_delete=models.CASCADE,
+        related_name="notifications",
+        null=True, 
+        blank=True,
     )
 
     recipient = models.ForeignKey(

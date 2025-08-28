@@ -13,6 +13,8 @@ class Vaccine(models.Model):
         NASAL = "NASAL", "Nasal (spray)"
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, unique=True)
+    description = models.TextField(blank=True, null=True)
+    manufacturer = models.CharField(max_length=255, blank=True, null=True)
     dose = models.CharField(max_length=100, help_text="Dosage info: 2ml per 10kg bodyweight or 5ml fixed dose")
     route = models.CharField(
         max_length=20,
