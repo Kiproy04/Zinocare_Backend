@@ -38,13 +38,13 @@ class User(AbstractUser, PermissionsMixin):
     address = models.TextField(blank=True, null=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="mkulima")
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)  # Needed for Django Admin access
+    is_staff = models.BooleanField(default=False)  
     date_joined = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()
  
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["role", "username"]  
+    REQUIRED_FIELDS = ["role", "full_name"]   
 
     def __str__(self):
         return f"{self.email} ({self.get_role_display()})"

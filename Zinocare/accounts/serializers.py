@@ -55,7 +55,7 @@ class LogoutSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "email", "username", "role"]
+        fields = ["id", "email", "username", "role", "full_name"]
 
 
 class MkulimaProfileSerializer(serializers.ModelSerializer):
@@ -63,7 +63,7 @@ class MkulimaProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MkulimaProfile
-        fields = "__all__"
+        fields = ["user", "farm_name", "location"]
 
 
 class VetProfileSerializer(serializers.ModelSerializer):
@@ -71,4 +71,4 @@ class VetProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VetProfile
-        fields = "__all__"
+        fields = ["user", "specialization", "license_number"]

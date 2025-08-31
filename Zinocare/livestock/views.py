@@ -12,7 +12,7 @@ class AnimalDetailView(generics.RetrieveAPIView):
     def get_queryset(self):
         user = self.request.user
         if user.role == "mkulima":
-            return Animal.objects.filter(mkulima=user.mkulimaprofile)
+            return Animal.objects.filter(mkulima=user.mkulima_profile)
         elif user.role == "vet":
             return Animal.objects.all()
         return Animal.objects.none()
@@ -48,7 +48,7 @@ class AnimalListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         if user.role == "mkulima":
-            return Animal.objects.filter(mkulima=user.mkulimaprofile)
+            return Animal.objects.filter(mkulima=user.mkulima_profile)
         elif user.role == "vet":
             return Animal.objects.all()  
         return Animal.objects.none()
@@ -62,4 +62,4 @@ class AnimalListCreateView(generics.ListCreateAPIView):
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.save(mkulima=self.request.user.mkulimaprofile)
+        serializer.save(mkulima=self.request.user.mkulima_profile)

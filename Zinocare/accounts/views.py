@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,9 +14,11 @@ from .serializers import (
     LogoutSerializer,
 )
 from .models import MkulimaProfile, VetProfile
+User = get_user_model()
 
 
 class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -40,29 +43,24 @@ class LogoutView(APIView):
             status=status.HTTP_205_RESET_CONTENT
         )
 
-def get_profile_and_serializer(self, user, data=None, partial=False):
-    if user.role == "mkulima":
-        profile = MkulimaProfile.objects.get(user=user)
-        serializer = MkulimaProfileSerializer(profile, data=data, partial=partial)
-    elif user.role == "vet":
-        profile = VetProfile.objects.get(user=user)
-        serializer = VetProfileSerializer(profile, data=data, partial=partial)
-    else:
-        profile, serializer = None, UserSerializer(user, data=data, partial=partial) if data else UserSerializer(user)
-    return profile, serializer
-class ProfileView(APIView):
+
+class ProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request):
-        _, serializer = self.get_profile_and_serializer(request.user)
-        return Response(serializer.data)
+    def get_object(self):
+        """Return the correct profile instance based on user role."""
+        user = self.request.user
+        if user.role == "mkulima":
+            return MkulimaProfile.objects.get(user=user)
+        elif user.role == "vet":
+            return VetProfile.objects.get(user=user)
+        return user  
 
-    def put(self, request):
-        profile, serializer = self.get_profile_and_serializer(request.user, request.data, partial=True)
-        if profile is None:
-            return Response({"error": "Profile update not available for this role"}, status=400)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+    def get_serializer_class(self):
+        """Return the correct serializer based on user role."""
+        user = self.request.user
+        if user.role == "mkulima":
+            return MkulimaProfileSerializer
+        elif user.role == "vet":
+            return VetProfileSerializer
+        return UserSerializer

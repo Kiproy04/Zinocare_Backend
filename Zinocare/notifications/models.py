@@ -61,7 +61,7 @@ class Notification(models.Model):
     payload = models.JSONField(
         null=True,
         blank=True,
-        help_text="Optional structured data (e.g. subject, body, metadata)",
+        help_text="Optional structured data",
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

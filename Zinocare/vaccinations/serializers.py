@@ -27,9 +27,6 @@ class VaccinationScheduleSerializer(serializers.ModelSerializer):
         return schedule
 
     def create_farmer_notification(self, schedule):
-        """
-        Creates a notification for the farmer 1 day before scheduled_date.
-        """
         send_at = schedule.scheduled_date - timezone.timedelta(days=1)
         if send_at > timezone.now():  
             Notification.objects.create(
