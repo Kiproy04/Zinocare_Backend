@@ -9,10 +9,57 @@ from .serializers import (
 )
 
 
-class VaccineListView(generics.ListAPIView):
-    queryset = Vaccine.objects.all()
+class VaccineListCreateView(generics.ListCreateAPIView):
     serializer_class = VaccineSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role in ["mkulima", "vet"]:
+            return Vaccine.objects.all()
+        return Vaccine.objects.none()
+
+    def create(self, request, *args, **kwargs):
+        if request.user.role != "vet":
+            return Response(
+                {"detail": "Only vets can add vaccines."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        return super().create(request, *args, **kwargs)
+
+class VaccineDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = VaccineSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role in ["mkulima", "vet"]:
+            return Vaccine.objects.all()
+        return Vaccine.objects.none()
+
+    def put(self, request, *args, **kwargs):
+        if request.user.role != "vet":
+            return Response(
+                {"detail": "Only vets can update vaccines."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        if request.user.role != "vet":
+            return Response(
+                {"detail": "Only vets can update vaccines."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        if request.user.role != "vet":
+            return Response(
+                {"detail": "Only vets can delete vaccines."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        return self.destroy(request, *args, **kwargs)
 
 
 class VaccinationScheduleListCreateView(generics.ListCreateAPIView):
