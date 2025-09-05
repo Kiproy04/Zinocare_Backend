@@ -26,10 +26,10 @@ A Django + Django REST Framework backend for managing livestock, vaccinations, c
 ## 📦 Project Structure (apps)
 
 - **accounts/**: User + profiles (Mkulima, Vet)
-- **livestock/**: # Animal workflow
-- **vaccinations/**: # Vaccine, VaccineTargetSpecies, VaccinationSchedule, VaccinationRecord workflow
-- **consultations/**: # Consultation workflow
-- **notifications/**: # Notification scheduling workflow
+- **livestock/**:  Animal workflow
+- **vaccinations/**:  Vaccine, VaccineTargetSpecies, VaccinationSchedule, VaccinationRecord workflow
+- **consultations/**:  Consultation workflow
+- **notifications/**:  Notification scheduling workflow
 
 ---
 
