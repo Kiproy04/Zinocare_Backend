@@ -12,7 +12,6 @@ A Django + Django REST Framework backend for managing livestock, vaccinations, c
 - **Consultations**: Farmer–Vet consultation workflow with status lifecycle
 - **Notifications**: Scheduled reminders (SMS/Email/Push) with delivery status tracking
 - **UUIDs everywhere** for safer IDs
-- **Validation in `clean()`** + unique constraints and indexes
 
 ---
 
@@ -26,11 +25,11 @@ A Django + Django REST Framework backend for managing livestock, vaccinations, c
 
 ## 📦 Project Structure (apps)
 
-accounts/ # User + profiles (Mkulima, Vet)
-livestock/ # Animal model
-vaccinations/ # Vaccine, VaccineTargetSpecies, VaccinationSchedule, VaccinationRecord
-consultations/ # Consultation workflow
-notifications/ # Notification scheduling
+- **accounts/**: User + profiles (Mkulima, Vet)
+- **livestock/**: # Animal workflow
+- **vaccinations/**: # Vaccine, VaccineTargetSpecies, VaccinationSchedule, VaccinationRecord workflow
+- **consultations/**: # Consultation workflow
+- **notifications/**: # Notification scheduling workflow
 
 ---
 
@@ -44,7 +43,7 @@ POST /api/auth/register/ → create account + profile (Mkulima or Vet)
 
 POST /api/auth/login/ → return JWT access & refresh tokens
 
-GET /api/auth/me/ → get current user + profile
+GET /api/auth/profile/ → get current user + profile
 
 🐄 2: Livestock API
 
@@ -62,7 +61,7 @@ DELETE /api/livestock/animals/{id}/ → remove animal
 
 GET /api/vaccines/ → list vaccines
 
-POST /api/vaccines/ (admin only)
+POST /api/vaccines/ (vet only)
 
 POST /api/vaccinations/schedules/ → create vaccination schedule for an animal
 
