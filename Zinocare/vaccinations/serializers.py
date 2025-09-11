@@ -1,10 +1,15 @@
 from rest_framework import serializers
 from django.utils import timezone
-from .models import Vaccine, VaccinationSchedule, VaccinationRecord
+from .models import Vaccine, VaccinationSchedule, VaccinationRecord, VaccineTargetSpecies
 from notifications.models import Notification
 
 
 class VaccineSerializer(serializers.ModelSerializer):
+    target_species = serializers.SlugRelatedField(
+        slug_field="species",  
+        queryset=VaccineTargetSpecies.objects.all(),
+        many=True
+    )
     class Meta:
         model = Vaccine
         fields = "__all__"
