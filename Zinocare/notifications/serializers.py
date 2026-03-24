@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
 from .models import Notification
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -14,19 +15,21 @@ class NotificationSerializer(serializers.ModelSerializer):
             "status",
             "send_at",
             "payload",
-            "source_type",  
-            "source",       
+            "source_type",
+            "source",
             "created_at",
         ]
 
-    def get_source_type(self, obj):
+    @extend_schema_field(serializers.CharField())
+    def get_source_type(self, obj) -> str:
         if obj.schedule:
             return "vaccination"
         elif obj.consultation:
             return "consultation"
         return "system"
 
-    def get_source(self, obj):
+    @extend_schema_field(serializers.DictField())
+    def get_source(self, obj) -> dict:
         if obj.schedule:
             return {
                 "schedule_id": str(obj.schedule.id),
@@ -46,4 +49,4 @@ class NotificationSerializer(serializers.ModelSerializer):
                 "date": obj.consultation.date,
                 "status": obj.consultation.status,
             }
-        return None
+        return {}

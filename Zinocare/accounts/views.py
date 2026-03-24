@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 from .serializers import (
     RegisterSerializer,
     LoginTokenObtainPairSerializer,
@@ -14,8 +15,8 @@ from .serializers import (
     LogoutSerializer,
 )
 from .models import MkulimaProfile, VetProfile
-User = get_user_model()
 
+User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -25,6 +26,10 @@ class RegisterView(generics.CreateAPIView):
 class LoginTokenObtainPairView(TokenObtainPairView):
     serializer_class = LoginTokenObtainPairSerializer
 
+@extend_schema(
+    request=LogoutSerializer,
+    responses={205: OpenApiResponse(description="Successfully logged out.")}
+)
 class LogoutView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -43,22 +48,27 @@ class LogoutView(APIView):
             status=status.HTTP_205_RESET_CONTENT
         )
 
-
+@extend_schema(
+    responses={
+        200: OpenApiResponse(description="Returns profile based on user role (Mkulima or Vet).")
+    }
+)
 class ProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        """Return the correct profile instance based on user role."""
         user = self.request.user
         if user.role == "mkulima":
             return MkulimaProfile.objects.get(user=user)
         elif user.role == "vet":
             return VetProfile.objects.get(user=user)
-        return user  
+        return user
 
     def get_serializer_class(self):
-        """Return the correct serializer based on user role."""
         user = self.request.user
+        # During schema generation, user is anonymous
+        if not hasattr(user, 'role'):
+            return UserSerializer
         if user.role == "mkulima":
             return MkulimaProfileSerializer
         elif user.role == "vet":
