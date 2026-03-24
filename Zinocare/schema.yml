@@ -1,0 +1,1626 @@
+openapi: 3.0.3
+info:
+  title: Zinocare API
+  version: 1.0.0
+  description: Livestock management platform for farmers (Mkulima) and vets
+paths:
+  /api/accounts/login/:
+    post:
+      operationId: accounts_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginTokenObtainPair'
+          description: ''
+  /api/accounts/logout/:
+    post:
+      operationId: accounts_logout_create
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Logout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Logout'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '205':
+          description: Successfully logged out.
+  /api/accounts/profile/:
+    get:
+      operationId: accounts_profile_retrieve
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: Returns profile based on user role (Mkulima or Vet).
+    put:
+      operationId: accounts_profile_update
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: Returns profile based on user role (Mkulima or Vet).
+    patch:
+      operationId: accounts_profile_partial_update
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: Returns profile based on user role (Mkulima or Vet).
+  /api/accounts/register/:
+    post:
+      operationId: accounts_register_create
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+  /api/accounts/token/refresh/:
+    post:
+      operationId: accounts_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/consultations/cancel/{id}/:
+    put:
+      operationId: consultations_cancel_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - consultations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultationCancel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConsultationCancel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConsultationCancel'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationCancel'
+          description: ''
+    patch:
+      operationId: consultations_cancel_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - consultations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationCancel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationCancel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationCancel'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationCancel'
+          description: ''
+  /api/consultations/complete/{id}/:
+    put:
+      operationId: consultations_complete_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - consultations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultationComplete'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConsultationComplete'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConsultationComplete'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationComplete'
+          description: ''
+    patch:
+      operationId: consultations_complete_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - consultations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationComplete'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationComplete'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationComplete'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationComplete'
+          description: ''
+  /api/consultations/request/:
+    post:
+      operationId: consultations_request_create
+      tags:
+      - consultations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConsultationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConsultationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationRequest'
+          description: ''
+  /api/consultations/schedule/{id}/:
+    put:
+      operationId: consultations_schedule_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - consultations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultationSchedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConsultationSchedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConsultationSchedule'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationSchedule'
+          description: ''
+    patch:
+      operationId: consultations_schedule_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - consultations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationSchedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationSchedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedConsultationSchedule'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultationSchedule'
+          description: ''
+  /api/livestock/animal-detail/{id}/:
+    get:
+      operationId: livestock_animal_detail_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - livestock
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+          description: ''
+    put:
+      operationId: livestock_animal_detail_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - livestock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Animal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Animal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Animal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+          description: ''
+    patch:
+      operationId: livestock_animal_detail_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - livestock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAnimal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAnimal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAnimal'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+          description: ''
+    delete:
+      operationId: livestock_animal_detail_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - livestock
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/livestock/animal-list:
+    get:
+      operationId: livestock_animal_list_list
+      tags:
+      - livestock
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Animal'
+          description: ''
+    post:
+      operationId: livestock_animal_list_create
+      tags:
+      - livestock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Animal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Animal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Animal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+          description: ''
+  /api/notifications/notifications/:
+    get:
+      operationId: notifications_notifications_list
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+          description: ''
+  /api/vaccinations/records/:
+    get:
+      operationId: vaccinations_records_list
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VaccinationRecord'
+          description: ''
+    post:
+      operationId: vaccinations_records_create
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaccinationRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VaccinationRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VaccinationRecord'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationRecord'
+          description: ''
+  /api/vaccinations/records-details/{id}/:
+    get:
+      operationId: vaccinations_records_details_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationRecord'
+          description: ''
+    put:
+      operationId: vaccinations_records_details_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaccinationRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VaccinationRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VaccinationRecord'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationRecord'
+          description: ''
+    patch:
+      operationId: vaccinations_records_details_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccinationRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccinationRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccinationRecord'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationRecord'
+          description: ''
+    delete:
+      operationId: vaccinations_records_details_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/vaccinations/schedules/:
+    get:
+      operationId: vaccinations_schedules_list
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VaccinationSchedule'
+          description: ''
+    post:
+      operationId: vaccinations_schedules_create
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaccinationSchedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VaccinationSchedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VaccinationSchedule'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationSchedule'
+          description: ''
+  /api/vaccinations/schedules-details/{id}/:
+    get:
+      operationId: vaccinations_schedules_details_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationSchedule'
+          description: ''
+    put:
+      operationId: vaccinations_schedules_details_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaccinationSchedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VaccinationSchedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VaccinationSchedule'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationSchedule'
+          description: ''
+    patch:
+      operationId: vaccinations_schedules_details_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccinationSchedule'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccinationSchedule'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccinationSchedule'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaccinationSchedule'
+          description: ''
+    delete:
+      operationId: vaccinations_schedules_details_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/vaccinations/vaccines/:
+    get:
+      operationId: vaccinations_vaccines_list
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vaccine'
+          description: ''
+    post:
+      operationId: vaccinations_vaccines_create
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+          description: ''
+  /api/vaccinations/vaccines-details/{id}/:
+    get:
+      operationId: vaccinations_vaccines_details_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+          description: ''
+    put:
+      operationId: vaccinations_vaccines_details_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+          description: ''
+    patch:
+      operationId: vaccinations_vaccines_details_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccine'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccine'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVaccine'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+          description: ''
+    delete:
+      operationId: vaccinations_vaccines_details_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vaccinations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Animal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        species:
+          $ref: '#/components/schemas/SpeciesEnum'
+        mkulima:
+          type: string
+          format: uuid
+        breed:
+          type: string
+          nullable: true
+          maxLength: 100
+        sex:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/SexEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - mkulima
+      - species
+    BlankEnum:
+      enum:
+      - ''
+    ChannelEnum:
+      enum:
+      - SMS
+      - EMAIL
+      - PUSH
+      type: string
+      description: |-
+        * `SMS` - SMS
+        * `EMAIL` - Email
+        * `PUSH` - Push Notification
+    ConsultationCancel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        reason:
+          type: string
+          writeOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status330Enum'
+          readOnly: true
+        notes:
+          type: string
+          readOnly: true
+          description: Notes or summary after consultation
+      required:
+      - id
+      - notes
+      - status
+    ConsultationComplete:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        notes:
+          type: string
+          description: Notes or summary after consultation
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status330Enum'
+          readOnly: true
+      required:
+      - id
+      - status
+    ConsultationRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        farmer:
+          type: string
+          format: uuid
+          description: Farmer requesting veterinary consultation
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status330Enum'
+          readOnly: true
+        requested_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - farmer
+      - id
+      - requested_at
+      - status
+    ConsultationSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        vet:
+          type: string
+          format: uuid
+          nullable: true
+          description: Vet assigned to handle the consultation
+        scheduled_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Time scheduled for consultation
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status330Enum'
+          readOnly: true
+      required:
+      - id
+      - status
+    LoginTokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    Logout:
+      type: object
+      properties:
+        refresh:
+          type: string
+      required:
+      - refresh
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        recipient:
+          type: string
+          format: uuid
+          description: The farmer or vet who will receive this notification
+        channel:
+          $ref: '#/components/schemas/ChannelEnum'
+        status:
+          $ref: '#/components/schemas/NotificationStatusEnum'
+        send_at:
+          type: string
+          format: date-time
+          description: When the notification should be sent
+        payload:
+          nullable: true
+          description: Optional structured data
+        source_type:
+          type: string
+          readOnly: true
+        source:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - recipient
+      - send_at
+      - source
+      - source_type
+    NotificationStatusEnum:
+      enum:
+      - PENDING
+      - SENT
+      - FAILED
+      type: string
+      description: |-
+        * `PENDING` - Pending
+        * `SENT` - Sent
+        * `FAILED` - Failed
+    NullEnum:
+      enum:
+      - null
+    PatchedAnimal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        species:
+          $ref: '#/components/schemas/SpeciesEnum'
+        mkulima:
+          type: string
+          format: uuid
+        breed:
+          type: string
+          nullable: true
+          maxLength: 100
+        sex:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/SexEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedConsultationCancel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        reason:
+          type: string
+          writeOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status330Enum'
+          readOnly: true
+        notes:
+          type: string
+          readOnly: true
+          description: Notes or summary after consultation
+    PatchedConsultationComplete:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        notes:
+          type: string
+          description: Notes or summary after consultation
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status330Enum'
+          readOnly: true
+    PatchedConsultationSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        vet:
+          type: string
+          format: uuid
+          nullable: true
+          description: Vet assigned to handle the consultation
+        scheduled_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Time scheduled for consultation
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status330Enum'
+          readOnly: true
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        full_name:
+          type: string
+          nullable: true
+          maxLength: 255
+    PatchedVaccinationRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        animal:
+          type: string
+          format: uuid
+        vaccine:
+          type: string
+          format: uuid
+        date_administered:
+          type: string
+          format: date
+        notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedVaccinationSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        animal:
+          type: string
+          format: uuid
+        vaccine:
+          type: string
+          format: uuid
+        status:
+          allOf:
+          - $ref: '#/components/schemas/VaccinationScheduleStatusEnum'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedVaccine:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        target_species:
+          type: array
+          items:
+            $ref: '#/components/schemas/TargetSpeciesEnum'
+        name:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+        manufacturer:
+          type: string
+          nullable: true
+          maxLength: 255
+        dose:
+          type: string
+          description: 'Dosage info: 2ml per 10kg bodyweight or 5ml fixed dose'
+          maxLength: 100
+        route:
+          description: |-
+            How the vaccine should be administered
+
+            * `IM` - Intramuscular (into muscle)
+            * `SC` - Subcutaneous (under skin)
+            * `ORAL` - Oral (by mouth)
+            * `NASAL` - Nasal (spray)
+          oneOf:
+          - $ref: '#/components/schemas/RouteEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        recommended_interval_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Interval before next dose/booster (in days)
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    Register:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        full_name:
+          type: string
+          nullable: true
+          maxLength: 255
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - email
+      - id
+      - password
+      - username
+    RoleEnum:
+      enum:
+      - mkulima
+      - vet
+      - admin
+      type: string
+      description: |-
+        * `mkulima` - Mkulima
+        * `vet` - Vet
+        * `admin` - Admin
+    RouteEnum:
+      enum:
+      - IM
+      - SC
+      - ORAL
+      - NASAL
+      type: string
+      description: |-
+        * `IM` - Intramuscular (into muscle)
+        * `SC` - Subcutaneous (under skin)
+        * `ORAL` - Oral (by mouth)
+        * `NASAL` - Nasal (spray)
+    SexEnum:
+      enum:
+      - male
+      - female
+      type: string
+      description: |-
+        * `male` - Male
+        * `female` - Female
+    SpeciesEnum:
+      enum:
+      - cattle
+      - goat
+      - sheep
+      - poultry
+      - other
+      type: string
+      description: |-
+        * `cattle` - Cattle
+        * `goat` - Goat
+        * `sheep` - Sheep
+        * `poultry` - Poultry
+        * `other` - Other
+    Status330Enum:
+      enum:
+      - REQUESTED
+      - SCHEDULED
+      - COMPLETED
+      - CANCELLED
+      type: string
+      description: |-
+        * `REQUESTED` - Requested
+        * `SCHEDULED` - Scheduled
+        * `COMPLETED` - Completed
+        * `CANCELLED` - Cancelled
+    TargetSpeciesEnum:
+      enum:
+      - cattle
+      - goat
+      - sheep
+      - poultry
+      - other
+      type: string
+      description: |-
+        * `cattle` - Cattle
+        * `goat` - Goat
+        * `sheep` - Sheep
+        * `poultry` - Poultry
+        * `other` - Other
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        full_name:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - email
+      - id
+      - username
+    VaccinationRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        animal:
+          type: string
+          format: uuid
+        vaccine:
+          type: string
+          format: uuid
+        date_administered:
+          type: string
+          format: date
+        notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - animal
+      - created_at
+      - date_administered
+      - id
+      - vaccine
+    VaccinationSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        animal:
+          type: string
+          format: uuid
+        vaccine:
+          type: string
+          format: uuid
+        status:
+          allOf:
+          - $ref: '#/components/schemas/VaccinationScheduleStatusEnum'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - animal
+      - created_at
+      - id
+      - status
+      - vaccine
+    VaccinationScheduleStatusEnum:
+      enum:
+      - ACTIVE
+      - COMPLETED
+      - PAUSED
+      type: string
+      description: |-
+        * `ACTIVE` - Active
+        * `COMPLETED` - Completed
+        * `PAUSED` - Paused
+    Vaccine:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        target_species:
+          type: array
+          items:
+            $ref: '#/components/schemas/TargetSpeciesEnum'
+        name:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+        manufacturer:
+          type: string
+          nullable: true
+          maxLength: 255
+        dose:
+          type: string
+          description: 'Dosage info: 2ml per 10kg bodyweight or 5ml fixed dose'
+          maxLength: 100
+        route:
+          description: |-
+            How the vaccine should be administered
+
+            * `IM` - Intramuscular (into muscle)
+            * `SC` - Subcutaneous (under skin)
+            * `ORAL` - Oral (by mouth)
+            * `NASAL` - Nasal (spray)
+          oneOf:
+          - $ref: '#/components/schemas/RouteEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        recommended_interval_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Interval before next dose/booster (in days)
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - dose
+      - id
+      - name
+      - target_species
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

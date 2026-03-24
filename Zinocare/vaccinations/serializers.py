@@ -16,8 +16,8 @@ class VaccineSerializer(serializers.ModelSerializer):
 class VaccinationScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = VaccinationSchedule
-        fields = ["id", "mkulima", "animal", "vaccine", "scheduled_date", "status", "created_at"]
-        read_only_fields = ["id", "status", "created_at", "mkulima"]
+        fields = ["id", "animal", "vaccine", "status", "created_at"]
+        read_only_fields = ["id", "status", "created_at"]
 
     def create(self, validated_data):
         request = self.context["request"]
@@ -60,7 +60,7 @@ class VaccinationScheduleSerializer(serializers.ModelSerializer):
 class VaccinationRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = VaccinationRecord
-        fields = ["id", "schedule", "animal", "vaccine", "vet", "date_administered", "notes", "created_at"]
+        fields = ["id", "animal", "vaccine", "date_administered", "notes", "created_at"]
         read_only_fields = ["id", "vet", "created_at"]
 
     def create(self, validated_data):
@@ -70,9 +70,6 @@ class VaccinationRecordSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Only vets can create vaccination records.")
         validated_data["vet"] = user.vetprofile
         record = super().create(validated_data)
-        if record.schedule:
-            record.schedule.status = "completed"
-            record.schedule.save()
         return record
 
     def validate(self, attrs):
