@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta
 import os
 import dj_database_url
 from dotenv import load_dotenv
@@ -9,17 +10,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ─── Security ─────────────────────────────────────────────────────────────────
-SECRET_KEY = os.getenv("SECRET_KEY")  
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://zinocare-backend-1.onrender.com"
-]
 
 # ─── Applications ─────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
@@ -29,8 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third party
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
+    'drf_spectacular',
+    # Local apps
     'accounts.apps.AccountsConfig',
     'consultations.apps.ConsultationsConfig',
     'livestock.apps.LivestockConfig',
@@ -41,7 +40,8 @@ INSTALLED_APPS = [
 # ─── Middleware ────────────────────────────────────────────────────────────────
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',       
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -71,7 +71,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Zinocare.wsgi.application'
 
 # ─── Database ─────────────────────────────────────────────────────────────────
-# Locally: falls back to SQLite. On Render: uses the PostgreSQL DATABASE_URL
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -107,9 +106,38 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # ─── Django REST Framework ────────────────────────────────────────────────────
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day',
+    },
+}
+
+# ─── JWT Settings ─────────────────────────────────────────────────────────────
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+# ─── CORS ─────────────────────────────────────────────────────────────────────
+# During development — allows all. Tighten when frontend is deployed.
+CORS_ALLOW_ALL_ORIGINS = True
+
+# ─── API Documentation ────────────────────────────────────────────────────────
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Zinocare API',
+    'DESCRIPTION': 'Livestock management platform for farmers (Mkulima) and vets',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 # ─── Celery / Redis ───────────────────────────────────────────────────────────
