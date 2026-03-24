@@ -140,12 +140,6 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'DISABLE_ERRORS_AND_WARNINGS': False,
     'COMPONENT_SPLIT_REQUEST': True,
-    'ENUM_NAME_OVERRIDES': {
-        'ConsultationStatusEnum': 'consultations.models.Consultation.status',
-        'NotificationStatusEnum': 'notifications.models.Notification.status',
-        'VaccinationScheduleStatusEnum': 'vaccinations.models.VaccinationSchedule.status',
-        'TargetSpeciesEnum': 'vaccinations.models.VaccineTargetSpecies.species',
-    },
 }
 
 # ─── Celery / Redis ───────────────────────────────────────────────────────────
