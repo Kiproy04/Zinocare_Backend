@@ -16,21 +16,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginTokenObtainPair'
+              $ref: '#/components/schemas/LoginTokenObtainPairRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LoginTokenObtainPair'
+              $ref: '#/components/schemas/LoginTokenObtainPairRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LoginTokenObtainPair'
+              $ref: '#/components/schemas/LoginTokenObtainPairRequest'
         required: true
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginTokenObtainPair'
-          description: ''
+          description: No response body
   /api/accounts/logout/:
     post:
       operationId: accounts_logout_create
@@ -40,13 +36,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Logout'
+              $ref: '#/components/schemas/LogoutRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Logout'
+              $ref: '#/components/schemas/LogoutRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Logout'
+              $ref: '#/components/schemas/LogoutRequest'
         required: true
       security:
       - jwtAuth: []
@@ -71,13 +67,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
         required: true
       security:
       - jwtAuth: []
@@ -92,13 +88,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: '#/components/schemas/PatchedUserRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: '#/components/schemas/PatchedUserRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedUser'
+              $ref: '#/components/schemas/PatchedUserRequest'
       security:
       - jwtAuth: []
       responses:
@@ -113,13 +109,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/RegisterRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/RegisterRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Register'
+              $ref: '#/components/schemas/RegisterRequest'
         required: true
       security:
       - jwtAuth: []
@@ -143,13 +139,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TokenRefresh'
+              $ref: '#/components/schemas/TokenRefreshRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TokenRefresh'
+              $ref: '#/components/schemas/TokenRefreshRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/TokenRefresh'
+              $ref: '#/components/schemas/TokenRefreshRequest'
         required: true
       responses:
         '200':
@@ -174,13 +170,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsultationCancel'
+              $ref: '#/components/schemas/ConsultationCancelRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ConsultationCancel'
+              $ref: '#/components/schemas/ConsultationCancelRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ConsultationCancel'
+              $ref: '#/components/schemas/ConsultationCancelRequest'
       security:
       - jwtAuth: []
       responses:
@@ -205,13 +201,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationCancel'
+              $ref: '#/components/schemas/PatchedConsultationCancelRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationCancel'
+              $ref: '#/components/schemas/PatchedConsultationCancelRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationCancel'
+              $ref: '#/components/schemas/PatchedConsultationCancelRequest'
       security:
       - jwtAuth: []
       responses:
@@ -237,13 +233,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsultationComplete'
+              $ref: '#/components/schemas/ConsultationCompleteRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ConsultationComplete'
+              $ref: '#/components/schemas/ConsultationCompleteRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ConsultationComplete'
+              $ref: '#/components/schemas/ConsultationCompleteRequest'
       security:
       - jwtAuth: []
       responses:
@@ -268,13 +264,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationComplete'
+              $ref: '#/components/schemas/PatchedConsultationCompleteRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationComplete'
+              $ref: '#/components/schemas/PatchedConsultationCompleteRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationComplete'
+              $ref: '#/components/schemas/PatchedConsultationCompleteRequest'
       security:
       - jwtAuth: []
       responses:
@@ -293,13 +289,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsultationRequest'
+              $ref: '#/components/schemas/ConsultationRequestRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ConsultationRequest'
+              $ref: '#/components/schemas/ConsultationRequestRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ConsultationRequest'
+              $ref: '#/components/schemas/ConsultationRequestRequest'
         required: true
       security:
       - jwtAuth: []
@@ -326,13 +322,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsultationSchedule'
+              $ref: '#/components/schemas/ConsultationScheduleRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ConsultationSchedule'
+              $ref: '#/components/schemas/ConsultationScheduleRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ConsultationSchedule'
+              $ref: '#/components/schemas/ConsultationScheduleRequest'
       security:
       - jwtAuth: []
       responses:
@@ -357,13 +353,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationSchedule'
+              $ref: '#/components/schemas/PatchedConsultationScheduleRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationSchedule'
+              $ref: '#/components/schemas/PatchedConsultationScheduleRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedConsultationSchedule'
+              $ref: '#/components/schemas/PatchedConsultationScheduleRequest'
       security:
       - jwtAuth: []
       responses:
@@ -407,13 +403,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Animal'
+              $ref: '#/components/schemas/AnimalRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Animal'
+              $ref: '#/components/schemas/AnimalRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Animal'
+              $ref: '#/components/schemas/AnimalRequest'
         required: true
       security:
       - jwtAuth: []
@@ -438,13 +434,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedAnimal'
+              $ref: '#/components/schemas/PatchedAnimalRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedAnimal'
+              $ref: '#/components/schemas/PatchedAnimalRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedAnimal'
+              $ref: '#/components/schemas/PatchedAnimalRequest'
       security:
       - jwtAuth: []
       responses:
@@ -493,13 +489,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Animal'
+              $ref: '#/components/schemas/AnimalRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Animal'
+              $ref: '#/components/schemas/AnimalRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Animal'
+              $ref: '#/components/schemas/AnimalRequest'
         required: true
       security:
       - jwtAuth: []
@@ -550,13 +546,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VaccinationRecord'
+              $ref: '#/components/schemas/VaccinationRecordRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/VaccinationRecord'
+              $ref: '#/components/schemas/VaccinationRecordRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/VaccinationRecord'
+              $ref: '#/components/schemas/VaccinationRecordRequest'
         required: true
       security:
       - jwtAuth: []
@@ -603,13 +599,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VaccinationRecord'
+              $ref: '#/components/schemas/VaccinationRecordRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/VaccinationRecord'
+              $ref: '#/components/schemas/VaccinationRecordRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/VaccinationRecord'
+              $ref: '#/components/schemas/VaccinationRecordRequest'
         required: true
       security:
       - jwtAuth: []
@@ -635,13 +631,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedVaccinationRecord'
+              $ref: '#/components/schemas/PatchedVaccinationRecordRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedVaccinationRecord'
+              $ref: '#/components/schemas/PatchedVaccinationRecordRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedVaccinationRecord'
+              $ref: '#/components/schemas/PatchedVaccinationRecordRequest'
       security:
       - jwtAuth: []
       responses:
@@ -691,13 +687,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VaccinationSchedule'
+              $ref: '#/components/schemas/VaccinationScheduleRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/VaccinationSchedule'
+              $ref: '#/components/schemas/VaccinationScheduleRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/VaccinationSchedule'
+              $ref: '#/components/schemas/VaccinationScheduleRequest'
         required: true
       security:
       - jwtAuth: []
@@ -744,13 +740,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VaccinationSchedule'
+              $ref: '#/components/schemas/VaccinationScheduleRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/VaccinationSchedule'
+              $ref: '#/components/schemas/VaccinationScheduleRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/VaccinationSchedule'
+              $ref: '#/components/schemas/VaccinationScheduleRequest'
         required: true
       security:
       - jwtAuth: []
@@ -776,13 +772,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedVaccinationSchedule'
+              $ref: '#/components/schemas/PatchedVaccinationScheduleRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedVaccinationSchedule'
+              $ref: '#/components/schemas/PatchedVaccinationScheduleRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedVaccinationSchedule'
+              $ref: '#/components/schemas/PatchedVaccinationScheduleRequest'
       security:
       - jwtAuth: []
       responses:
@@ -832,13 +828,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Vaccine'
+              $ref: '#/components/schemas/VaccineRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Vaccine'
+              $ref: '#/components/schemas/VaccineRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Vaccine'
+              $ref: '#/components/schemas/VaccineRequest'
         required: true
       security:
       - jwtAuth: []
@@ -885,13 +881,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Vaccine'
+              $ref: '#/components/schemas/VaccineRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Vaccine'
+              $ref: '#/components/schemas/VaccineRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Vaccine'
+              $ref: '#/components/schemas/VaccineRequest'
         required: true
       security:
       - jwtAuth: []
@@ -917,13 +913,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedVaccine'
+              $ref: '#/components/schemas/PatchedVaccineRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedVaccine'
+              $ref: '#/components/schemas/PatchedVaccineRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedVaccine'
+              $ref: '#/components/schemas/PatchedVaccineRequest'
       security:
       - jwtAuth: []
       responses:
@@ -990,6 +986,35 @@ components:
       - id
       - mkulima
       - species
+    AnimalRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        species:
+          $ref: '#/components/schemas/SpeciesEnum'
+        mkulima:
+          type: string
+          format: uuid
+        breed:
+          type: string
+          nullable: true
+          maxLength: 100
+        sex:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/SexEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - mkulima
+      - species
     BlankEnum:
       enum:
       - ''
@@ -1010,9 +1035,6 @@ components:
           type: string
           format: uuid
           readOnly: true
-        reason:
-          type: string
-          writeOnly: true
         status:
           allOf:
           - $ref: '#/components/schemas/Status330Enum'
@@ -1025,6 +1047,13 @@ components:
       - id
       - notes
       - status
+    ConsultationCancelRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          writeOnly: true
+          minLength: 1
     ConsultationComplete:
       type: object
       properties:
@@ -1042,6 +1071,12 @@ components:
       required:
       - id
       - status
+    ConsultationCompleteRequest:
+      type: object
+      properties:
+        notes:
+          type: string
+          description: Notes or summary after consultation
     ConsultationRequest:
       type: object
       properties:
@@ -1066,6 +1101,15 @@ components:
       - id
       - requested_at
       - status
+    ConsultationRequestRequest:
+      type: object
+      properties:
+        farmer:
+          type: string
+          format: uuid
+          description: Farmer requesting veterinary consultation
+      required:
+      - farmer
     ConsultationSchedule:
       type: object
       properties:
@@ -1090,23 +1134,39 @@ components:
       required:
       - id
       - status
-    LoginTokenObtainPair:
+    ConsultationScheduleRequest:
+      type: object
+      properties:
+        vet:
+          type: string
+          format: uuid
+          nullable: true
+          description: Vet assigned to handle the consultation
+        scheduled_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Time scheduled for consultation
+    LoginTokenObtainPairRequest:
       type: object
       properties:
         email:
           type: string
           writeOnly: true
+          minLength: 1
         password:
           type: string
           writeOnly: true
+          minLength: 1
       required:
       - email
       - password
-    Logout:
+    LogoutRequest:
       type: object
       properties:
         refresh:
           type: string
+          minLength: 1
       required:
       - refresh
     Notification:
@@ -1162,13 +1222,9 @@ components:
     NullEnum:
       enum:
       - null
-    PatchedAnimal:
+    PatchedAnimalRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         name:
           type: string
           nullable: true
@@ -1192,49 +1248,22 @@ components:
           type: string
           format: date
           nullable: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedConsultationCancel:
+    PatchedConsultationCancelRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         reason:
           type: string
           writeOnly: true
-        status:
-          allOf:
-          - $ref: '#/components/schemas/Status330Enum'
-          readOnly: true
-        notes:
-          type: string
-          readOnly: true
-          description: Notes or summary after consultation
-    PatchedConsultationComplete:
+          minLength: 1
+    PatchedConsultationCompleteRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         notes:
           type: string
           description: Notes or summary after consultation
-        status:
-          allOf:
-          - $ref: '#/components/schemas/Status330Enum'
-          readOnly: true
-    PatchedConsultationSchedule:
+    PatchedConsultationScheduleRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         vet:
           type: string
           format: uuid
@@ -1245,23 +1274,17 @@ components:
           format: date-time
           nullable: true
           description: Time scheduled for consultation
-        status:
-          allOf:
-          - $ref: '#/components/schemas/Status330Enum'
-          readOnly: true
-    PatchedUser:
+    PatchedUserRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         email:
           type: string
           format: email
+          minLength: 1
           maxLength: 255
         username:
           type: string
+          minLength: 1
           description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
             only.
           pattern: ^[\w.@+-]+$
@@ -1272,13 +1295,9 @@ components:
           type: string
           nullable: true
           maxLength: 255
-    PatchedVaccinationRecord:
+    PatchedVaccinationRecordRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         animal:
           type: string
           format: uuid
@@ -1290,44 +1309,25 @@ components:
           format: date
         notes:
           type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedVaccinationSchedule:
+    PatchedVaccinationScheduleRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         animal:
           type: string
           format: uuid
         vaccine:
           type: string
           format: uuid
-        status:
-          allOf:
-          - $ref: '#/components/schemas/VaccinationScheduleStatusEnum'
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedVaccine:
+    PatchedVaccineRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
         target_species:
           type: array
           items:
             $ref: '#/components/schemas/TargetSpeciesEnum'
         name:
           type: string
+          minLength: 1
           maxLength: 200
         description:
           type: string
@@ -1338,6 +1338,7 @@ components:
           maxLength: 255
         dose:
           type: string
+          minLength: 1
           description: 'Dosage info: 2ml per 10kg bodyweight or 5ml fixed dose'
           maxLength: 100
         route:
@@ -1358,10 +1359,6 @@ components:
           format: int64
           nullable: true
           description: Interval before next dose/booster (in days)
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
     Register:
       type: object
       properties:
@@ -1379,9 +1376,6 @@ components:
             only.
           pattern: ^[\w.@+-]+$
           maxLength: 150
-        password:
-          type: string
-          writeOnly: true
         full_name:
           type: string
           nullable: true
@@ -1391,6 +1385,34 @@ components:
       required:
       - email
       - id
+      - username
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 255
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+        full_name:
+          type: string
+          nullable: true
+          maxLength: 255
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - email
       - password
       - username
     RoleEnum:
@@ -1474,19 +1496,25 @@ components:
       required:
       - access
       - refresh
-    User:
+    TokenRefreshRequest:
       type: object
       properties:
-        id:
+        refresh:
           type: string
-          format: uuid
-          readOnly: true
+          minLength: 1
+      required:
+      - refresh
+    UserRequest:
+      type: object
+      properties:
         email:
           type: string
           format: email
+          minLength: 1
           maxLength: 255
         username:
           type: string
+          minLength: 1
           description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
             only.
           pattern: ^[\w.@+-]+$
@@ -1499,7 +1527,6 @@ components:
           maxLength: 255
       required:
       - email
-      - id
       - username
     VaccinationRecord:
       type: object
@@ -1529,6 +1556,24 @@ components:
       - date_administered
       - id
       - vaccine
+    VaccinationRecordRequest:
+      type: object
+      properties:
+        animal:
+          type: string
+          format: uuid
+        vaccine:
+          type: string
+          format: uuid
+        date_administered:
+          type: string
+          format: date
+        notes:
+          type: string
+      required:
+      - animal
+      - date_administered
+      - vaccine
     VaccinationSchedule:
       type: object
       properties:
@@ -1555,6 +1600,18 @@ components:
       - created_at
       - id
       - status
+      - vaccine
+    VaccinationScheduleRequest:
+      type: object
+      properties:
+        animal:
+          type: string
+          format: uuid
+        vaccine:
+          type: string
+          format: uuid
+      required:
+      - animal
       - vaccine
     VaccinationScheduleStatusEnum:
       enum:
@@ -1617,6 +1674,51 @@ components:
       - created_at
       - dose
       - id
+      - name
+      - target_species
+    VaccineRequest:
+      type: object
+      properties:
+        target_species:
+          type: array
+          items:
+            $ref: '#/components/schemas/TargetSpeciesEnum'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+        manufacturer:
+          type: string
+          nullable: true
+          maxLength: 255
+        dose:
+          type: string
+          minLength: 1
+          description: 'Dosage info: 2ml per 10kg bodyweight or 5ml fixed dose'
+          maxLength: 100
+        route:
+          description: |-
+            How the vaccine should be administered
+
+            * `IM` - Intramuscular (into muscle)
+            * `SC` - Subcutaneous (under skin)
+            * `ORAL` - Oral (by mouth)
+            * `NASAL` - Nasal (spray)
+          oneOf:
+          - $ref: '#/components/schemas/RouteEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        recommended_interval_days:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Interval before next dose/booster (in days)
+      required:
+      - dose
       - name
       - target_species
   securitySchemes:
