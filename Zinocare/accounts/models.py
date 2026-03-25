@@ -51,7 +51,7 @@ class User(AbstractUser, PermissionsMixin):
 
 class MkulimaProfile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="mkulima_profile")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="mkulimaprofile")
     farm_name = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
