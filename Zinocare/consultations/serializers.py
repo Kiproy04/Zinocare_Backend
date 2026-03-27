@@ -6,8 +6,8 @@ from .models import Consultation
 class ConsultationRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consultation
-        fields = ["id", "farmer", "status", "requested_at"]
-        read_only_fields = ["id", "status", "requested_at"]
+        fields = ["id", "farmer", "vet", "status", "notes", "scheduled_at", "requested_at"]
+        read_only_fields = ["id", "farmer", "vet", "status", "scheduled_at", "requested_at"]
 
     def create(self, validated_data):
         validated_data["farmer"] = self.context["request"].user
