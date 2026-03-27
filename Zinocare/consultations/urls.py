@@ -4,6 +4,7 @@ from .views import (
     ConsultationScheduleView,
     ConsultationCompleteView,
     ConsultationCancelView,
+    ConsultationListView,
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path("schedule/<uuid:pk>/", ConsultationScheduleView.as_view(), name="consultation-schedule"),
     path("complete/<uuid:pk>/", ConsultationCompleteView.as_view(), name="consultation-complete"),
     path("cancel/<uuid:pk>/", ConsultationCancelView.as_view(), name="consultation-cancel"),
+    path("list/", ConsultationListView.as_view(), name="consultation-list"),
 ]
