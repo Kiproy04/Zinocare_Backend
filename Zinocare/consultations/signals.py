@@ -15,7 +15,7 @@ def create_consultation_notifications(sender, instance, created, **kwargs):
             send_at=timezone.now(),
             payload={
                 "subject": "Consultation Booked",
-                "body": f"Your consultation with vet {instance.vet} is scheduled for {instance.date}.",
+                "body": f"Your consultation with vet {instance.vet} is scheduled for {instance.scheduled_at}.",
                 "metadata": {"consultation_id": str(instance.id)},
             },
         )
@@ -26,7 +26,7 @@ def create_consultation_notifications(sender, instance, created, **kwargs):
             send_at=timezone.now(),
             payload={
                 "subject": "New Consultation Assigned",
-                "body": f"You have a new consultation with farmer {instance.farmer} on {instance.date}.",
+                "body": f"You have a new consultation with farmer {instance.farmer} on {instance.scheduled_at}.",
                 "metadata": {"consultation_id": str(instance.id)},
             },
         )
@@ -39,7 +39,7 @@ def create_consultation_notifications(sender, instance, created, **kwargs):
             send_at=timezone.now(),
             payload={
                 "subject": "Consultation Cancelled",
-                "body": f"Your consultation with {instance.vet} on {instance.date} has been cancelled.",
+                "body": f"Your consultation with {instance.vet} on {instance.scheduled_at} has been cancelled.",
                 "metadata": {"consultation_id": str(instance.id)},
             },
         )
@@ -50,7 +50,7 @@ def create_consultation_notifications(sender, instance, created, **kwargs):
             send_at=timezone.now(),
             payload={
                 "subject": "Consultation Cancelled",
-                "body": f"The consultation with farmer {instance.farmer} on {instance.date} has been cancelled.",
+                "body": f"The consultation with farmer {instance.farmer} on {instance.scheduled_at} has been cancelled.",
                 "metadata": {"consultation_id": str(instance.id)},
             },
         )
