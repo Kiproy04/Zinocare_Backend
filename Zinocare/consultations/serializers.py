@@ -1,18 +1,29 @@
 from rest_framework import serializers
 from django.utils import timezone
 from .models import Consultation
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
+
+class UserBasicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "email", "full_name"]
 
 class ConsultationRequestSerializer(serializers.ModelSerializer):
+    farmer_detail = UserBasicSerializer(source='farmer', read_only=True)
+    vet_detail = UserBasicSerializer(source='vet', read_only=True)
+
     class Meta:
         model = Consultation
-        fields = ["id", "farmer", "vet", "status", "notes", "scheduled_at", "requested_at"]
-        read_only_fields = ["id", "farmer", "vet", "status", "scheduled_at", "requested_at"]
+        fields = ["id", "farmer", "farmer_detail", "vet", "vet_detail", 
+                  "status", "notes", "scheduled_at", "requested_at"]
+        read_only_fields = ["id", "farmer", "farmer_detail", "vet", 
+                           "vet_detail", "status", "scheduled_at", "requested_at"]
 
     def create(self, validated_data):
         validated_data["farmer"] = self.context["request"].user
         return super().create(validated_data)
-
 
 class ConsultationScheduleSerializer(serializers.ModelSerializer):
     class Meta:
