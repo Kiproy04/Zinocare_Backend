@@ -12,16 +12,13 @@ from .permissions import IsFarmer, IsVet, IsOwnerOrVet
 
 class ConsultationListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-
+    
     def get_queryset(self):
         user = self.request.user
         if user.role == "mkulima":
             return Consultation.objects.filter(farmer=user)
-        elif user.role == "vet":
-            return (
-                Consultation.objects.filter(vet=user) |
-                Consultation.objects.filter(status=Consultation.Status.REQUESTED)
-            )
+        elif user.role in ["vet", "admin"]:
+            return Consultation.objects.all()
         return Consultation.objects.none()
 
     def get_serializer_class(self):

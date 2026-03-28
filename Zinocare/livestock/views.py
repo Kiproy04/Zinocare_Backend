@@ -53,7 +53,7 @@ class AnimalListCreateView(generics.ListCreateAPIView):
         try:
             if user.role == "mkulima":
                 return Animal.objects.filter(mkulima=user.mkulimaprofile)
-            elif user.role == "vet":
+            elif user.role in ["vet", "admin"]:
                 return Animal.objects.all()
         except Exception:
             pass
