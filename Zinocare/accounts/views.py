@@ -18,6 +18,21 @@ from .models import MkulimaProfile, VetProfile
 
 User = get_user_model()
 
+class IsAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == "admin"
+
+class UserListView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
+
+    def get_queryset(self):
+        User = get_user_model()
+        role = self.request.query_params.get('role')
+        if role:
+            return User.objects.filter(role=role).order_by('-date_joined')
+        return User.objects.all().order_by('-date_joined')
+    
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
