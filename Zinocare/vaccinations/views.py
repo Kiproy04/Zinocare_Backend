@@ -73,7 +73,7 @@ class VaccinationScheduleListCreateView(generics.ListCreateAPIView):
                 return VaccinationSchedule.objects.filter(
                     animal__mkulima=user.mkulimaprofile
                 )
-            elif user.role == "vet":
+            elif user.role in ["vet", "admin"]:
                 return VaccinationSchedule.objects.all()
         except Exception:
             pass
@@ -83,6 +83,7 @@ class VaccinationScheduleListCreateView(generics.ListCreateAPIView):
         ctx = super().get_serializer_context()
         ctx["request"] = self.request
         return ctx
+
 
 
 class VaccinationScheduleDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -114,22 +115,29 @@ class VaccinationRecordListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.role == "vet":
-            return VaccinationRecord.objects.all()
-        elif user.role == "mkulima":
-            return VaccinationRecord.objects.filter(animal__mkulima=user.mkulimaprofile)
+        try:
+            if user.role in ["vet", "admin"]:
+                return VaccinationRecord.objects.all()
+            elif user.role == "mkulima":
+                return VaccinationRecord.objects.filter(
+                    animal__mkulima=user.mkulimaprofile
+                )
+        except Exception:
+            pass
         return VaccinationRecord.objects.none()
 
     def create(self, request, *args, **kwargs):
         if request.user.role != "vet":
-            return Response({"detail": "Only vets can create records."}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"detail": "Only vets can create records."},
+                status=status.HTTP_403_FORBIDDEN
+            )
         return super().create(request, *args, **kwargs)
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
         ctx["request"] = self.request
         return ctx
-
 
 class VaccinationRecordDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = VaccinationRecordSerializer
