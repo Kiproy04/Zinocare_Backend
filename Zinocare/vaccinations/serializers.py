@@ -1,5 +1,12 @@
 from rest_framework import serializers
 from .models import Vaccine, VaccinationSchedule, VaccinationRecord, VaccineTargetSpecies
+from livestock.models import Animal
+
+
+class AnimalBasicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Animal
+        fields = ["id", "name", "species", "breed"]
 
 
 class VaccineSerializer(serializers.ModelSerializer):
@@ -14,9 +21,11 @@ class VaccineSerializer(serializers.ModelSerializer):
 
 
 class VaccinationScheduleSerializer(serializers.ModelSerializer):
+    animal_detail = AnimalBasicSerializer(source='animal', read_only=True)
+
     class Meta:
         model = VaccinationSchedule
-        fields = ["id", "animal", "vaccine", "next_due", "interval_days", "status", "created_at"]
+        fields = ["id", "animal", "animal_detail", "vaccine", "next_due", "interval_days", "status", "created_at"]
         read_only_fields = ["id", "status", "created_at"]
 
     def validate(self, attrs):
@@ -27,10 +36,17 @@ class VaccinationScheduleSerializer(serializers.ModelSerializer):
 
 
 class VaccinationRecordSerializer(serializers.ModelSerializer):
+    animal_detail = AnimalBasicSerializer(source='animal', read_only=True)
+    performed_by_email = serializers.EmailField(source='performed_by.email', read_only=True)
+    performed_by_name = serializers.CharField(source='performed_by.full_name', read_only=True)
+
     class Meta:
         model = VaccinationRecord
-        fields = ["id", "animal", "vaccine", "performed_by", "date_administered", "batch_number", "notes", "created_at"]
-        read_only_fields = ["id", "performed_by", "created_at"]
+        fields = ["id", "animal", "animal_detail", "vaccine", "performed_by",
+                  "performed_by_email", "performed_by_name",
+                  "date_administered", "batch_number", "notes", "created_at"]
+        read_only_fields = ["id", "performed_by", "performed_by_email",
+                           "performed_by_name", "created_at"]
 
     def create(self, validated_data):
         request = self.context["request"]
