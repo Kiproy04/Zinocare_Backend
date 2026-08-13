@@ -131,7 +131,12 @@ SIMPLE_JWT = {
 
 # ─── CORS ─────────────────────────────────────────────────────────────────────
 # During development — allows all. Tighten when frontend is deployed.
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://zinocare-frontend.vercel.app",
+    "http://localhost:5173",  
+]
+
 
 # ─── API Documentation ────────────────────────────────────────────────────────
 SPECTACULAR_SETTINGS = {
