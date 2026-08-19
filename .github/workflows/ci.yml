@@ -42,7 +42,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd Zinocare
           pip install -r requirements.txt
 
       - name: Run migrations
