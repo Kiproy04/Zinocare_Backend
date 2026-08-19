@@ -28,7 +28,7 @@ jobs:
     env:
       SECRET_KEY: test-secret-key-for-ci-only
       DEBUG: True
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_zinocare
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_zinocare?sslmode=disable
       ALLOWED_HOSTS: localhost,127.0.0.1
       REDIS_URL: redis://localhost:6379/0
 
