@@ -30,6 +30,7 @@ jobs:
       DEBUG: True
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_zinocare
       ALLOWED_HOSTS: localhost,127.0.0.1
+      REDIS_URL: redis://localhost:6379/0
 
     steps:
       - name: Checkout code
@@ -44,12 +45,17 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run migrations
+      - name: Wait for PostgreSQL
         run: |
-          cd Zinocare
-          python manage.py migrate
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+
+      - name: Run migrations
+        working-directory: Zinocare
+        run: python manage.py migrate
 
       - name: Run tests
-        run: |
-          cd Zinocare
-          python manage.py test accounts livestock consultations -v 2
+        working-directory: Zinocare
+        run: python manage.py test accounts livestock consultations -v 2
