@@ -71,14 +71,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Zinocare.wsgi.application'
 
 # ─── Database ─────────────────────────────────────────────────────────────────
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    )
-}
+db_config = dj_database_url.config(
+    default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    conn_max_age=600,
+    conn_health_checks=True,
+)
+
+if os.getenv('CI') or DEBUG:
+    db_config.setdefault('OPTIONS', {})
+    db_config['OPTIONS']['sslmode'] = 'disable'
+
+DATABASES = {'default': db_config}
 
 # ─── Password Validation ──────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
