@@ -74,7 +74,7 @@ class VetProfile(models.Model):
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="vet_profile")
-    license_number = models.CharField(max_length=100, unique=True)
+    license_number = models.CharField(max_length=100, unique=True, blank=True, null=True)
     specialization = models.CharField(max_length=50, choices=SPECIALIZATION_CHOICES, default="mixed")  
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -85,5 +85,8 @@ class VetProfile(models.Model):
             user = self.user.full_name or self.user.email
         except AttributeError:
             user = "Unknown User"
-        return f"{self.license_number} - {user} ({self.get_specialization_display()})"
+
+        license_number = self.license_number or "No license"
+
+        return f"{license_number} - {user} ({self.get_specialization_display()})"
 
