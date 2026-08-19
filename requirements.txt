@@ -10,7 +10,7 @@ gunicorn==26.0.0
 inflection==0.5.1
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
-packaging==26.0
+packaging==26.3
 psycopg2-binary==2.9.11
 PyJWT==2.11.0
 python-dotenv==1.2.2
