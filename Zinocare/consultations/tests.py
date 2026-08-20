@@ -31,7 +31,7 @@ class ConsultationAPITest(TestCase):
 
     def test_mkulima_can_request_consultation(self):
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.post("/api/consultations/request/", {
+        response = self.client.post("/api/v1/consultations/request/", {
             "notes": "My cow is sick"
         })
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -39,13 +39,13 @@ class ConsultationAPITest(TestCase):
 
     def test_vet_cannot_request_consultation(self):
         self.client.force_authenticate(user=self.vet)
-        response = self.client.post("/api/consultations/request/", {
+        response = self.client.post("/api/v1/consultations/request/", {
             "notes": "Testing"
         })
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_unauthenticated_cannot_request_consultation(self):
-        response = self.client.post("/api/consultations/request/", {
+        response = self.client.post("/api/v1/consultations/request/", {
             "notes": "Testing"
         })
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -57,7 +57,7 @@ class ConsultationAPITest(TestCase):
             notes="Test consultation"
         )
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.get("/api/consultations/")
+        response = self.client.get("/api/v1/consultations/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
@@ -68,7 +68,7 @@ class ConsultationAPITest(TestCase):
         )
         self.client.force_authenticate(user=self.mkulima)
         response = self.client.patch(
-            f"/api/consultations/cancel/{consultation.id}/",
+            f"/api/v1/consultations/cancel/{consultation.id}/",
             {"reason": "Changed my mind"}
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -89,7 +89,7 @@ class ConsultationAPITest(TestCase):
         )
         self.client.force_authenticate(user=self.mkulima)
         response = self.client.patch(
-            f"/api/consultations/cancel/{consultation.id}/",
+            f"/api/v1/consultations/cancel/{consultation.id}/",
             {"reason": "Trying to cancel"}
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

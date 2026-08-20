@@ -90,7 +90,7 @@ class RegisterAPITest(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.url = "/api/accounts/register/"
+        self.url = "/api/v1/accounts/register/"
 
     def test_register_mkulima_creates_user_and_profile(self):
         data = {
@@ -147,7 +147,7 @@ class LoginAPITest(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.url = "/api/accounts/login/"
+        self.url = "/api/v1/accounts/login/"
         self.user = User.objects.create_user(
             email="login@test.com",
             password="testpass123",
@@ -195,12 +195,12 @@ class ProfileAPITest(TestCase):
         MkulimaProfile.objects.create(user=self.mkulima)
 
     def test_profile_requires_auth(self):
-        response = self.client.get("/api/accounts/profile/")
+        response = self.client.get("/api/v1/accounts/profile/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_mkulima_profile_returns_correct_data(self):
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.get("/api/accounts/profile/")
+        response = self.client.get("/api/v1/accounts/profile/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("farm_name", response.data)
         self.assertIn("location", response.data)
@@ -208,7 +208,7 @@ class ProfileAPITest(TestCase):
 
     def test_profile_update(self):
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.patch("/api/accounts/profile/", {
+        response = self.client.patch("/api/v1/accounts/profile/", {
             "farm_name": "Test Farm",
             "location": "Eldoret"
         })
@@ -235,21 +235,21 @@ class UserListAPITest(TestCase):
 
     def test_admin_can_list_users(self):
         self.client.force_authenticate(user=self.admin)
-        response = self.client.get("/api/accounts/users/")
+        response = self.client.get("/api/v1/accounts/users/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_mkulima_cannot_list_users(self):
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.get("/api/accounts/users/")
+        response = self.client.get("/api/v1/accounts/users/")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_unauthenticated_cannot_list_users(self):
-        response = self.client.get("/api/accounts/users/")
+        response = self.client.get("/api/v1/accounts/users/")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_filter_by_role(self):
         self.client.force_authenticate(user=self.admin)
-        response = self.client.get("/api/accounts/users/?role=mkulima")
+        response = self.client.get("/api/v1/accounts/users/?role=mkulima")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         for user in response.data:
             self.assertEqual(user["role"], "mkulima")

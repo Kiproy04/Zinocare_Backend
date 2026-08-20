@@ -41,14 +41,14 @@ class AnimalAPITest(TestCase):
 
     def test_mkulima_can_list_own_animals(self):
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.get("/api/livestock/animal-list")
+        response = self.client.get("/api/v1/livestock/animal-list")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["name"], "Bessie")
 
     def test_mkulima_can_add_animal(self):
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.post("/api/livestock/animal-list", {
+        response = self.client.post("/api/v1/livestock/animal-list", {
             "name": "Daisy",
             "species": "goat",
             "sex": "female"
@@ -58,12 +58,12 @@ class AnimalAPITest(TestCase):
 
     def test_vet_can_view_all_animals(self):
         self.client.force_authenticate(user=self.vet)
-        response = self.client.get("/api/livestock/animal-list")
+        response = self.client.get("/api/v1/livestock/animal-list")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_vet_cannot_add_animal(self):
         self.client.force_authenticate(user=self.vet)
-        response = self.client.post("/api/livestock/animal-list", {
+        response = self.client.post("/api/v1/livestock/animal-list", {
             "name": "Daisy",
             "species": "goat",
             "sex": "female"
@@ -71,7 +71,7 @@ class AnimalAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_unauthenticated_cannot_access_animals(self):
-        response = self.client.get("/api/livestock/animal-list")
+        response = self.client.get("/api/v1/livestock/animal-list")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_mkulima_cannot_see_other_farmers_animals(self):
@@ -91,6 +91,6 @@ class AnimalAPITest(TestCase):
         )
 
         self.client.force_authenticate(user=self.mkulima)
-        response = self.client.get("/api/livestock/animal-list")
+        response = self.client.get("/api/v1/livestock/animal-list")
         names = [a["name"] for a in response.data]
         self.assertNotIn("Other Animal", names)
