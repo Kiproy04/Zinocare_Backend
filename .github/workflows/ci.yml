@@ -59,4 +59,4 @@ jobs:
 
       - name: Run tests
         working-directory: Zinocare
-        run: python manage.py test accounts livestock consultations -v 2
+        run: python manage.py test accounts livestock vaccinations consultations notifications -v 2
